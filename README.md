@@ -1,0 +1,4 @@
+StoveRock
+=========
+
+Programmeerimiskeelte aine projekt
