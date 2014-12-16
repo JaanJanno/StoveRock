@@ -3,7 +3,7 @@ StoveRock
 
 Programmeerimiskeelte aine projekt
 
-#Kirjeldus
+#Ülesande püstitus
 
 Pliidikivi kaardimäng (lihtsustatud versioon)
 
