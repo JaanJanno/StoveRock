@@ -18,6 +18,6 @@ import EffectType.EffectType
 
 class Effect(
 		effectType : EffectType,
-		effectEvent : List[EffectEvent]) {
+		effectEvent : List[AbstractEffectEvent]) {
 
 }

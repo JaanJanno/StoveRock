@@ -13,13 +13,18 @@ EventEffect ::== "All" [Filter] [CreatureEffect]
 
 object EffectEventType extends Enumeration {
 	type EffectEventType = Value
-	val OnPlay = Value("OnPlay")
-	val UntilDeath = Value("UntilDeath")
-	val OnDamage = Value("OnDamage")
-	val OnDeath = Value("OnDeath")
+	val All = Value("All")
+	val Choose = Value("Choose")
+	val Random = Value("Random")
+
+	val DrawCard = Value("DrawCard")
 }
 import EffectEventType.EffectEventType
 
-class EffectEvent(eventType : EffectEventType, filter : List[EffectFilter], effect : List[EffectCreature]) {
-	
+abstract class AbstractEffectEvent() {
+
+	case class EffectEvent(eventType: EffectEventType, filter: List[AbstractEffectFilter], effect: List[AbstractEffectCreature]) extends AbstractEffectEvent;
+
+	case class DrawCardEventEffect() extends AbstractEffectEvent;
+
 }

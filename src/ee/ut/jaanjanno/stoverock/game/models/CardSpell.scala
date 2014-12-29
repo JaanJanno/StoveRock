@@ -19,9 +19,13 @@ Attack ::== <Int>
 Taunt ::== <Bool>
  */
 
-class Card(
+class SpellCard(
 	name : String,
 	cost : Int,
 	effect : List[Effect]) {
+	
+	override def toString = {
+		name + cost.toString() + effect.toString()
+	}
 	
 }

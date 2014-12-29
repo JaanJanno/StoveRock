@@ -19,13 +19,28 @@ object FilterType extends Enumeration {
 	val AnyHero = Value("AnyHero")
 	val AnyFriendly = Value("AnyFriendly")
 	val Self = Value("Self")
-	
-	val Type = Value("Type")
-	val Not = Value("Not")
-	val Any = Value("Any")
 }
 import FilterType.FilterType
 
-class EffectFilter(filterType : FilterType, minionType : MinionType, filters : List[EffectFilter]) {
+abstract class AbstractEffectFilter {
+	
+	//def filterCards(cards : List[Card]) : List[Card]
+	
+	case class EffectFilter(filterType : FilterType) extends AbstractEffectFilter {
+		
+	}
+	
+	case class EffectFilterByType(minionType : MinionType) extends AbstractEffectFilter {
+		
+	}
+	
+	case class EffectFilterByNot(filters : List[EffectFilter]) extends AbstractEffectFilter {
+		
+	}
+	
+	case class EffectFilterByAny(filters : List[EffectFilter]) extends AbstractEffectFilter {
+		
+	}
 	
 }
+

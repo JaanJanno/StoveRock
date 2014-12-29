@@ -16,6 +16,7 @@ object MinionType extends Enumeration {
 	type MinionType = Value
 	val Murloc = Value("Murloc")
 	val Beast = Value("Beast")
+	val Nothing = Value("Nothing")
 }
 import MinionType.MinionType
 
@@ -26,5 +27,5 @@ class CardMinion(
 	var health: Int,
 	var attack: Int,
 	taunt: Boolean,
-	minionType: MinionType) extends Card(name, cost, effect) {
+	minionType: MinionType) extends SpellCard(name, cost, effect) {
 }
