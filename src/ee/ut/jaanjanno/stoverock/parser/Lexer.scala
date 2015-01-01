@@ -3,6 +3,10 @@ package ee.ut.jaanjanno.stoverock.parser
 import java.util.regex.Pattern
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Töötleb sisendstringi lekseemideks
+ */
+
 object Lexer {
 
 	def lex(in: String): List[LexerToken] = {
@@ -20,6 +24,9 @@ object Lexer {
 				case '(' => tokenList.append(TupleStart())
 				case ')' => tokenList.append(TupleEnd())
 				case '"' => {
+					/*
+					 * Jutumärkides sõne reegel.
+					 */		
 					val start = index
 					index += 1
 					while (str(index) != '"') {
@@ -29,6 +36,9 @@ object Lexer {
 				}
 				case _ => {
 					if (str(index).isDigit || str(index) == '-') {
+						/*
+						 * Arvu reegel.
+						 */
 						val start = index
 						if (str(index) == '-') {
 							index += 1
@@ -40,6 +50,9 @@ object Lexer {
 						index -= 1
 					}
 					if (str(index).isLetter) {
+						/*
+						 * Sõne reegel.
+						 */
 						val start = index
 						while (str(index).isLetter) {
 							index += 1
@@ -54,10 +67,20 @@ object Lexer {
 		tokenList.append(EOF())
 		tokenList.toList
 	}
+	
+	/*
+	 * Reavahetused pole grammatikas defineeritud, seega
+	 * kustutan igaks juhuks.
+	 */
 
 	def rmNl(in: String): String = {
 		in.replaceAll("\n", "")
 	}
+	
+	/*
+	 * Näites oli imelik sulgudesse pandud negatiivne number, mis grammatika
+	 * järgi poleks tohtinud seal olla. Igaks juhuks eemaldan kõik sellised sulud.
+	 */
 
 	def rmParentheses(in: String): String = {
 		val regex = "\\(\\-\\d+\\)"

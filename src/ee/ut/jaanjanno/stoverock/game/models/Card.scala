@@ -1,5 +1,11 @@
 package ee.ut.jaanjanno.stoverock.game.models
 
+/*
+	File ::== [(Name, Cost, CardType)] 
+	Name ::== <String>
+	Cost ::== <Int>
+ */
+
 class Card(
 	name: String,
 	cost: Int,
@@ -26,6 +32,18 @@ abstract class CardType(
 		str + "\n    }"
 	}
 }
+
+/*
+	CardType ::== "MinionCard" [Effect] Health Attack Taunt ("Just" MinionType | "Nothing")
+	           |  "SpellCard" [Effect]
+	
+	Health ::== <Int>
+	
+	Attack ::== <Int>
+	
+	Taunt ::== <Bool>
+ */
+
 case class SpellCard(
 	effect: List[Effect]) extends CardType(effect)
 case class MinionCard(
@@ -43,9 +61,20 @@ case class MinionCard(
 	}
 }
 
+/*
+	MinionType ::== "Beast" | "Murloc"
+ */
+
 abstract class MinionType
 case class Beast() extends MinionType
 case class Murloc() extends MinionType
+
+/*
+	Effect ::== "OnPlay"     [EventEffect]  -- effekt kaardi käimisel
+	         |  "UntilDeath" [EventEffect]  -- effekt mis kestab välja käimisest kuni olendi surmani
+	         |  "OnDamage"   [EventEffect]  -- effekt mis tehakse olendi vigastamisel
+	         |  "OnDeath"    [EventEffect]  -- effekt mis tehakse olendi tapmisel (elupunktid <= 0)
+ */
 
 abstract class Effect(eventEffect: List[EventEffect]) {
 
@@ -85,6 +114,16 @@ case class OnDeath(
 		"OnDeath" + super.toString()
 	}
 }
+
+/*
+	EventEffect ::== "All" [Filter] [CreatureEffect] 
+	                             -- mõjutatake kõiki filtrile vastavaid olendeid
+	               | "Choose" [Filter] [CreatureEffect]       
+	                             -- mõjutatake üht kasutaja valitud filtrile vastavat olendeit
+	               | "Random" [Filter] [CreatureEffect]       
+	                             -- mõjutatake üht juhuslikku filtrile vastavat olendeit
+	               | "DrawCard"  -- toime olendi omanik võtab kaardi
+ */
 
 abstract class EventEffect
 abstract class FilteredEventEffect(
@@ -130,6 +169,12 @@ case class Random(
 }
 case class DrawCard() extends EventEffect
 
+/*
+	CreatureEffect ::== "Health" Type Health  -- elupunktide muutmine
+	                 |  "Attack" Type Attack  -- ründepunktide muutmine
+	                 |  "Taunt" Taunt         -- mõnituse muutmine
+ */
+
 abstract class CreatureEffect
 case class Health(
 	typeOf: EffType,
@@ -139,9 +184,24 @@ case class Attack(
 	attack: Int) extends CreatureEffect
 case class Taunt(taunt: Boolean) extends CreatureEffect
 
+/*
+	Type ::== "Relative" -- negatiivne relatiivne muutmine on vigastamine 
+	        | "Absolute" -- absoluutne negatiivne muutmine ei ole vigastamine
+ */
+
 abstract class EffType
 case class Relative() extends EffType
 case class Absolute() extends EffType
+
+/*
+	Filter ::== "AnyCreature"     -- olendid
+	          | "AnyHero"         -- kangelased
+	          | "AnyFriendly"     -- "omad" 
+	          | "Type" MinionType -- kindlat tüüpi olendid
+	          | "Self"            -- mõjutav olend ise
+	          | "Not" [Filter]    -- eitus
+	          | "Any" [Filter]    -- disjunktsioon: kui üks tingimus on taidetud
+*/
 
 abstract class Filter
 case class AnyCreature() extends Filter

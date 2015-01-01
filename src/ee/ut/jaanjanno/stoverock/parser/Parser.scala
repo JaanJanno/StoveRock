@@ -5,6 +5,10 @@ import java.util.regex.Matcher
 import scala.collection.mutable.ListBuffer
 import ee.ut.jaanjanno.stoverock.game.models._
 
+/*
+ * Parsib lekseemide järjendi kaartideks.
+ */
+
 class Parser(in: List[LexerToken]) {
 
 	var index: Int = 0
@@ -22,7 +26,8 @@ class Parser(in: List[LexerToken]) {
 	def peek(): LexerToken = {
 		in(index)
 	}
-
+	
+	//Kaartide listi reegel.
 	def parseCardList(): ListBuffer[Card] = {
 		val lis = new ListBuffer[Card]
 		if (pop() != ListStart()) {
@@ -40,7 +45,8 @@ class Parser(in: List[LexerToken]) {
 		}
 		lis
 	}
-
+	
+	//Kaardi reegel.
 	def parseCard(): Card = {
 		if (pop() != TupleStart()) {
 			throw new Exception
@@ -66,7 +72,8 @@ class Parser(in: List[LexerToken]) {
 		}
 		return new Card(name, cost, cardType)
 	}
-
+	
+	//Efektide listi reegel.
 	def parseEffectList(): ListBuffer[Effect] = {
 		val lis = new ListBuffer[Effect]
 		if (pop() != ListStart()) {
@@ -81,7 +88,8 @@ class Parser(in: List[LexerToken]) {
 		}
 		lis
 	}
-
+	
+	//Efekti reegel.
 	def parseEffect(): Effect = {
 		val header = pop().asInstanceOf[Name].string
 		val eventEffect: List[EventEffect] = parseEventEffectList()
@@ -94,7 +102,8 @@ class Parser(in: List[LexerToken]) {
 			case _ => throw new Exception
 		}
 	}
-
+	
+	//Event Efektide listi reegel.
 	def parseEventEffectList(): List[EventEffect] = {
 		val lis = new ListBuffer[EventEffect]
 		if (pop() != ListStart()) {
@@ -109,7 +118,8 @@ class Parser(in: List[LexerToken]) {
 		}
 		lis.toList
 	}
-
+	
+	//Event Efekti reegel.
 	def parseEventEffect(): EventEffect = {
 		val header = pop().asInstanceOf[Name].string
 		header match {
@@ -125,7 +135,8 @@ class Parser(in: List[LexerToken]) {
 			}
 		}
 	}
-
+	
+	//Creature Efektide listi reegel.
 	def parseCreatureEffectList(): List[CreatureEffect] = {
 		val lis = new ListBuffer[CreatureEffect]
 		if (pop() != ListStart()) {
@@ -140,7 +151,8 @@ class Parser(in: List[LexerToken]) {
 		}
 		lis.toList
 	}
-
+	
+	//Creature Efekti reegel.
 	def parseCreatureEffect(): CreatureEffect = {
 		val header = pop().asInstanceOf[Name].string
 		header match {
@@ -162,7 +174,8 @@ class Parser(in: List[LexerToken]) {
 			}
 		}
 	}
-
+	
+	//Efekti tüübi reegel.
 	def parseEffType(): EffType = {
 		val header = pop().asInstanceOf[Name].string
 		header match {
@@ -171,7 +184,8 @@ class Parser(in: List[LexerToken]) {
 			case _ => throw new Exception
 		}
 	}
-
+	
+	//Filtrite listi reegel.
 	def parseFilterList(): List[Filter] = {
 		val lis = new ListBuffer[Filter]
 		if (pop() != ListStart()) {
@@ -187,6 +201,7 @@ class Parser(in: List[LexerToken]) {
 		lis.toList
 	}
 
+	//Filtri reegel.
 	def parseFilter(): Filter = {
 		val header = pop().asInstanceOf[Name].string
 		header match {
@@ -208,7 +223,8 @@ class Parser(in: List[LexerToken]) {
 			}
 		}
 	}
-
+	
+	//Minion'i tüübi reegel.
 	def parseMinionType(): MinionType = {
 		val header = pop().asInstanceOf[Name].string
 		header match {

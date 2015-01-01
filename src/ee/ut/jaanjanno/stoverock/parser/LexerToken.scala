@@ -1,5 +1,10 @@
 package ee.ut.jaanjanno.stoverock.parser
 
+/*
+ * Lekseemid, milleks sisendsõne teisendatakse.
+ * Selliseid on mugavam parsida.
+ */
+
 abstract class LexerToken(string: String) {
 
 	override def toString(): String = {
