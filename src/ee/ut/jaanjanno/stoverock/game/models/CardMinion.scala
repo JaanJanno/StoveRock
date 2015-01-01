@@ -27,5 +27,5 @@ class CardMinion(
 	var health: Int,
 	var attack: Int,
 	taunt: Boolean,
-	minionType: MinionType) extends SpellCard(name, cost, effect) {
+	minionType: MinionType) extends CardSpell(name, cost, effect) {
 }

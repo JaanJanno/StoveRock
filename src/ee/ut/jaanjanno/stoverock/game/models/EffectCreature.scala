@@ -8,11 +8,17 @@ object CreatureEffectType extends Enumeration {
 import CreatureEffectType.CreatureEffectType
 
 abstract class AbstractEffectCreature {
-	
-	case class CreatureHealthEffect(effectType : CreatureAttackEffect, health : Int) extends AbstractEffectCreature
-	
-	case class CreatureAttackEffect(effectType : CreatureAttackEffect, attack : Int) extends AbstractEffectCreature
-	
-	case class CreatureTauntEffect(taunt : Boolean) extends AbstractEffectCreature
+
+	case class CreatureHealthEffect(
+		effectType: CreatureAttackEffect,
+		health: Int)
+		extends AbstractEffectCreature
+
+	case class CreatureAttackEffect(
+		effectType: CreatureAttackEffect,
+		attack: Int)
+		extends AbstractEffectCreature
+
+	case class CreatureTauntEffect(taunt: Boolean) extends AbstractEffectCreature
 
 }

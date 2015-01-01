@@ -19,13 +19,16 @@ Attack ::== <Int>
 Taunt ::== <Bool>
  */
 
-class SpellCard(
-	name : String,
-	cost : Int,
-	effect : List[Effect]) {
-	
+abstract class Card
+
+class CardSpell(
+	name: String,
+	cost: Int,
+	effect: List[Effect])
+	extends Card {
+
 	override def toString = {
 		name + cost.toString() + effect.toString()
 	}
-	
+
 }

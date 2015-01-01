@@ -23,7 +23,11 @@ import EffectEventType.EffectEventType
 
 abstract class AbstractEffectEvent() {
 
-	case class EffectEvent(eventType: EffectEventType, filter: List[AbstractEffectFilter], effect: List[AbstractEffectCreature]) extends AbstractEffectEvent;
+	case class EffectEvent(
+		eventType: EffectEventType,
+		filter: List[AbstractEffectFilter],
+		effect: List[AbstractEffectCreature])
+		extends AbstractEffectEvent;
 
 	case class DrawCardEventEffect() extends AbstractEffectEvent;
 
