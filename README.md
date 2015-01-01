@@ -136,10 +136,6 @@ ja loomulikut
 6) Kõik töö autorid tuleb selgelt välja tuua --- koodi kopeerimine teistelt isikutel pole lubatud.
 Soovituslik reegel on, et enda koodi ei tohiks teistele näidata ja teiste lahendusi ei tohi lugeda.
 
-
-Küsimused on teretulnud --- neid võib esitada näiteks emaili teel kalmer.apinis@ut.ee .
-
-
 =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
 Vihjed:
