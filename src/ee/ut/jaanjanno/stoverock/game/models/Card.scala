@@ -7,9 +7,9 @@ package ee.ut.jaanjanno.stoverock.game.models
  */
 
 class Card(
-	name: String,
-	cost: Int,
-	cardType: CardType) {
+	val name: String,
+	val cost: Int,
+	val cardType: CardType) {
 
 	override def toString(): String = {
 		var typeStr: String = ""
@@ -45,13 +45,13 @@ abstract class CardType(
  */
 
 case class SpellCard(
-	effect: List[Effect]) extends CardType(effect)
+	val effect: List[Effect]) extends CardType(effect)
 case class MinionCard(
-	effect: List[Effect],
-	health: Int,
-	attack: Int,
-	taunt: Boolean,
-	minionType: MinionType) extends CardType(effect) {
+	val effect: List[Effect],
+	val health: Int,
+	val attack: Int,
+	val taunt: Boolean,
+	val minionType: MinionType) extends CardType(effect) {
 
 	override def toString(): String = {
 		super.toString() +
