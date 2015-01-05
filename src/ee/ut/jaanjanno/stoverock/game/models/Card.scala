@@ -56,8 +56,18 @@ case class MinionCard(
 	override def toString(): String = {
 		super.toString() +
 			"\n    Health: " + health.toString() +
-			"\n    Attack: " + attack.toString() +
-			"\n    Taunt: " + taunt.toString()
+			", Attack: " + attack.toString() +
+			", Taunt: " + taunt.toString()
+	}
+	
+	def toDefString(
+			health: Int,
+			attack: Int,
+			taunt: Boolean): String = {
+		super.toString() +
+			"\n    Health: " + health.toString() +
+			", Attack: " + attack.toString() +
+			", Taunt: " + taunt.toString()
 	}
 }
 

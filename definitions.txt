@@ -3,16 +3,16 @@
 , MinionCard [] 6 7 False Nothing),
 
 ("Elven Archer"
-, 4
+, 1
 , MinionCard [OnPlay [Choose [] [Health Relative (-1)]]] 4 5 False Nothing),
 
 ("Gnomish Inventor"
-, 4
+, 1
 , MinionCard [OnPlay [DrawCard]] 2 4 False Nothing),
 
 
 ("Fireball"
-, 4
+, 1
 , SpellCard [OnPlay [Choose [AnyCreature] [Health Relative (-3)]]])
 
 ]
