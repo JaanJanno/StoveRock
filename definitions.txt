@@ -1,8 +1,42 @@
 [ ("Boulderfist Ogre"
-, 6
+, 2
 , MinionCard [] 6 7 False Nothing),
 
 ("Elven Archer"
+, 1
+, MinionCard [OnPlay [Choose [] [Health Relative (-1)]]] 4 5 True Nothing),
+
+("Gnomish Inventor"
+, 1
+, MinionCard [OnPlay [DrawCard]] 2 4 True Nothing),
+
+
+("Cheeseball"
+, 1
+, SpellCard [OnPlay [Choose [AnyCreature] [Health Relative (-3)]]]),
+
+("Boulderfist Frog"
+, 2
+, MinionCard [] 6 7 True Nothing),
+
+("Elven Cannon"
+, 1
+, MinionCard [OnPlay [Choose [] [Health Relative (-1)]]] 4 5 False Nothing),
+
+("Gnomish Decimator"
+, 1
+, MinionCard [OnPlay [DrawCard]] 2 4 False Nothing),
+
+
+("Eggnog"
+, 1
+, SpellCard [OnPlay [Choose [AnyCreature] [Health Relative (-3)]]]),
+
+("Fist Ogre"
+, 2
+, MinionCard [] 6 7 False Nothing),
+
+("Rops"
 , 1
 , MinionCard [OnPlay [Choose [] [Health Relative (-1)]]] 4 5 False Nothing),
 
@@ -11,7 +45,24 @@
 , MinionCard [OnPlay [DrawCard]] 2 4 False Nothing),
 
 
-("Fireball"
+("Screwdriver"
+, 1
+, SpellCard [OnPlay [Choose [AnyCreature] [Health Relative (-3)]]]),
+
+("Balrog"
+, 2
+, MinionCard [] 6 7 False Nothing),
+
+("Elven trebuchet"
+, 1
+, MinionCard [OnPlay [Choose [] [Health Relative (-1)]]] 4 5 False Nothing),
+
+("Elvish Inventor"
+, 1
+, MinionCard [OnPlay [DrawCard]] 2 4 False Nothing),
+
+
+("Glög"
 , 1
 , SpellCard [OnPlay [Choose [AnyCreature] [Health Relative (-3)]]])
 

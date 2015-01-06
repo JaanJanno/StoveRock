@@ -11,23 +11,25 @@ import scala.collection.mutable.ListBuffer
 
 object Program {
 
-	/*
-	 * Loeb sisse mõned definitsioonid ja 
-	 * tagastab ekraanile.
-	 */
-
 	var run = true
 	var actionPoints = 1
 
 	var redLife = 30
 	var bluLife = 30
 
+	/*
+	 * Loeb sisse mõned kaardidefinitsioonid ja 
+	 * alustab mängu.
+	 */
+
 	def main(args: Array[String]) = {
 		val file = scala.io.Source.fromFile("definitions.txt").mkString
 		val lex = Lexer.lex(file)
 		try {
 			val s = new Parser(lex).parse()
-
+			println("-----------------------\nLoeti sisse järgmised kaardid: ")
+			for (c <- s) println(c.toString())
+			println("-----------------------")
 			startGame(s)
 			if (redLife > bluLife)
 				println("Red won!")
@@ -44,6 +46,7 @@ object Program {
 
 	}
 
+	// ALustab mängutsükli.
 	def startGame(deck: List[Card]) {
 		val limit = deck.size
 
@@ -60,20 +63,20 @@ object Program {
 			println("\n------------------------\nRed player's turn:")
 			if (!drawCard(redDeck, redHand))
 				redLife -= 10
-
 			doTurn(deck, redHand, redGame, bluGame, true)
-
+			if (redLife < 1 || bluLife < 1) return
 			println("\n------------------------\nBlue player's turn:")
 			if (!drawCard(bluDeck, bluHand))
 				bluLife -= 10
 			doTurn(deck, bluHand, bluGame, redGame, false)
+			if (redLife < 1 || bluLife < 1) return
 
-			if(redLife < 1 || bluLife < 1)
-				return
-			actionPoints += 1
+			if (actionPoints < 10)
+				actionPoints += 1
 		}
 	}
 
+	// Täidab ühe mängu tsükli.
 	def doTurn(
 		deck: List[Card],
 		myHand: ListBuffer[Int],
@@ -92,13 +95,14 @@ object Program {
 		println("\nCurrent cards on table: ")
 		echoCards(myGame)
 
+		// Laseb kasutajal valida, milliseid kaarte käest mängu käia.
 		var points = actionPoints
 		var i = -1
 		while (i != 0) {
 			println("\nCurrent cards in hand: ")
 			echoHand(deck, myHand)
 
-			println("\nChoose card number to play: (0 for none)")
+			println("\nChoose card number to play: (0 for none) ActionPoints = " + points)
 			i = askNumber(0, myHand.length)
 			if (i != 0) {
 				val card = deck(myHand(i - 1))
@@ -110,12 +114,72 @@ object Program {
 						// TODO
 						myHand.remove(i - 1)
 					}
+					points -= cost
 				} else {
 					println("Too expensive move! Coose another card.")
 				}
 			}
 		}
+
+		// Töötleb kõik kaardid andes neile võimaluse rünnata.
+		for (card <- myGame) {
+
+			println("\nCurrent enemy cards on table: ")
+
+			var health = bluLife
+			if (red) health = redLife
+
+			println("1 = Hero{\n    Health = " + health + "\n}")
+			for (card <- 0 to enemyGame.length - 1) println((card + 2).toString() + " = " + enemyGame(card))
+			println("\nCurrent card = " + card.toString())
+			println("\nChoose enemy card number to attack: (0 skip, 1 hero)")
+
+			var chosen = false
+			while (!chosen) {
+				val choice = askNumber(0, enemyGame.length + 1)
+
+				choice match {
+					case 0 => chosen = true
+					case 1 => {
+						if (!hasTaunt(enemyGame)) {
+							if (red)
+								bluLife -= card.getAttack()
+							else
+								redLife -= card.getAttack()
+							chosen = true
+						} else
+							println("Enemy has taunt! Choose another card.")
+					}
+					case _ => {
+						val enemyCard = enemyGame(choice - 2)
+						if (hasTaunt(enemyGame) && !enemyCard.getTaunt()) {
+							println("Enemy has taunt! Choose another card.")
+						} else {
+							enemyCard.healthDisplacement -= card.getAttack()
+							if (enemyCard.getHealth() < 1)
+								enemyGame.remove(enemyGame.indexOf(enemyCard))
+							chosen = true
+						}
+					}
+				}
+			}
+		}
 	}
+
+	/*
+	 * Tagastab, kas antud kaartide listis on mõnitava omadusega kaarti.
+	 */
+
+	def hasTaunt(deck: ListBuffer[CardOwnership]): Boolean = {
+		for (card <- deck)
+			if (card.getTaunt())
+				return true
+		return false
+	}
+
+	/*
+	 * Tõmbab pakist kaardi mängija kätte.
+	 */
 
 	def drawCard(
 		myDeck: ListBuffer[Int],
@@ -127,6 +191,10 @@ object Program {
 			true
 		} else false
 	}
+
+	/*
+	 * Mängib argumendiks antud kaardi käest lauale.
+	 */
 
 	def playCard(
 		deck: List[Card],
@@ -141,9 +209,17 @@ object Program {
 		myGame.append(own)
 	}
 
+	/*
+	 * Kuvab mängulaual olevate kaartide info.
+	 */
+
 	def echoCards(game: ListBuffer[CardOwnership]) = {
 		for (card <- game) println(card.toString())
 	}
+
+	/*
+	 * Kuvab käesolevate kaartide info.
+	 */
 
 	def echoHand(
 		deck: List[Card],
@@ -154,6 +230,10 @@ object Program {
 			println((i + 1).toString() + " = " + card.toString())
 		}
 	}
+
+	/*
+	 * Küsib kasutajalt sisendiks numbri argumentideks antud vahemikus.
+	 */
 
 	def askNumber(min: Int, max: Int) = {
 		var i = -1
@@ -169,6 +249,10 @@ object Program {
 		i
 	}
 }
+
+/*
+ * Klass, mis määrab laual oleva kaardi info. Viitab ühele sisse loatud kaardi tüübile.
+ */
 
 class CardOwnership(
 	card: Card,
